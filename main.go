@@ -7,6 +7,8 @@ import (
 	"os"
 )
 
+var port = ":5000"
+
 func uploadHandler(w http.ResponseWriter, r *http.Request) {
 	// 获取上传的文件
 	file, handler, err := r.FormFile("file")
@@ -35,7 +37,7 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// 返回上传成功的消息和图片访问链接
-	fmt.Fprintf(w, "http://localhost:5000/uploads/%s", handler.Filename)
+	fmt.Fprintf(w, "http://0.0.0.0"+port+"/uploads/%s", handler.Filename)
 }
 
 func imageHandler(w http.ResponseWriter, r *http.Request) {
@@ -59,6 +61,6 @@ func main() {
 	http.HandleFunc("/uploads/", imageHandler)
 
 	// 启动服务器
-	fmt.Println("Local image server started on http://localhost:5000")
-	http.ListenAndServe(":5000", nil)
+	fmt.Println("Local image server started on http://0.0.0.0" + port)
+	http.ListenAndServe(port, nil)
 }
